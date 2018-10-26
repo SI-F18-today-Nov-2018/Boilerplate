@@ -1,0 +1,5 @@
+- [ ] Have you followed the guidelines in our [Contributing](https://github.com/SI-F18-today-Nov-2018/Boilerplate/blob/master/CONTRIBUTING.md) document?
+- [ ] Have you checked to ensure there aren't other open [Pull Requests](https://github.com/SI-F18-today-Nov-2018/Boilerplate/pulls) for the same change?
+- [ ] Have you added an explanation of what your changes do and why you'd like us to include them?
+- [ ] Have you written new tests for your changes?
+- [ ] Have you successfully tested your changes locally?
