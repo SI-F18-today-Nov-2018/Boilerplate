@@ -21,16 +21,16 @@ addons:
       - gfortran-8
 
 before_install:
-  - '[[ "${TRAVIS_OS_NAME}" = "osx" ]] && brew cask rm ocling'
+  - '[[ "${TRAVIS_OS_NAME}" = "osx" ]] && brew cask rm oclint'
 
 install:
   - export FC=gfortran
   - export CC=gcc
   - brew link --overwrite gcc || true
-  - '[ "${TRAVIS_OS_NAME}" = "osx" ] && export FC=gfortran-8'
-  - '[ "${TRAVIS_OS_NAME}" = "osx" ] && export CC=gcc-8'
-  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && wget "${CMAKE_URL_STEM}/v${CMAKE_VER%.*}/cmake-${CMAKE_VER}-Linux-x86_64.sh"'
-  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && bash cmake-${CMAKE_VER}-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=${HOME}/.local'
+  - '[ "${TRAVIS_OS_NAME}" = "osx" ] && export FC=gfortran-8 || true'
+  - '[ "${TRAVIS_OS_NAME}" = "osx" ] && export CC=gcc-8 || true'
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && wget "${CMAKE_URL_STEM}/v${CMAKE_VER%.*}/cmake-${CMAKE_VER}-Linux-x86_64.sh" || true'
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && bash cmake-${CMAKE_VER}-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=${HOME}/.local || true'
 
 script:
   - mkdir build
