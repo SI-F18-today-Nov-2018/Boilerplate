@@ -1,0 +1,42 @@
+---
+language: generic
+os:
+  - osx
+  - linux
+
+ENV:
+  - CTEST_OUTPUT_ON_FAILURE=ON
+  - CMAKE_VER=3.12.4
+  - CMAKE_URL_STEM="https://cmake.org/files"
+
+addons:
+  homebrew:
+    brewfile: Brewfile.travis
+    update: true
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-8
+      - gfortran-8
+
+before_install:
+  - '[[ "${TRAVIS_OS_NAME}" = "osx" ]] && brew cask rm ocling'
+
+install:
+  - export FC=gfortran
+  - export CC=gcc
+  - brew link --overwrite gcc || true
+  - '[ "${TRAVIS_OS_NAME}" = "osx" ] && export FC=gfortran-8'
+  - '[ "${TRAVIS_OS_NAME}" = "osx" ] && export CC=gcc-8'
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && wget "${CMAKE_URL_STEM}/v${CMAKE_VER%.*}/cmake-${CMAKE_VER}-Linux-x86_64.sh"'
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && bash cmake-${CMAKE_VER}-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=${HOME}/.local'
+
+script:
+  - mkdir build
+  - cd build
+  - export PATH="${HOME}/.local/bin:${PATH}"
+  - export PATH="${HOME}/.local/:${PATH}"
+  - cmake ..
+  - cmake --build . --config Release
+  - ctest --output-on-failure
