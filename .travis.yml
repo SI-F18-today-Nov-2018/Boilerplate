@@ -5,7 +5,9 @@ os:
   - linux
 
 ENV:
-  GLOBAL:
+  GLOBAL:https://github.com/sourceryinstitute/OpenCoarrays/releases/download/2.3.1/OpenCoarrays-2.3.1.tar.gz
+    - OC_URL_STEM="https://github.com/sourceryinstitute/OpenCoarrays/releases/download"
+    - OC_VER="2.3.1"
     - CTEST_OUTPUT_ON_FAILURE=ON
     - CMAKE_VER="3.12.4"
     - CMAKE_URL_STEM="https://cmake.org/files"
@@ -30,14 +32,22 @@ install:
   - brew link --overwrite gcc || true
   - '[ "${TRAVIS_OS_NAME}" = "osx" ] && export FC=gfortran-8 || true'
   - '[ "${TRAVIS_OS_NAME}" = "osx" ] && export CC=gcc-8 || true'
-  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && wget "${CMAKE_URL_STEM}/v${CMAKE_VER%.*}/cmake-${CMAKE_VER}-Linux-x86_64.sh" || true'
-  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && bash cmake-${CMAKE_VER}-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=${HOME}/.local || true'
+  - export PATH="${HOME}/.local/bin:${PATH}"
+  - export PATH="${HOME}/.local/:${PATH}"
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && wget "${CMAKE_URL_STEM}/v${CMAKE_VER%.*}/cmake-${CMAKE_VER}-Linux-x86_64.sh"'
+  - 'bash cmake-${CMAKE_VER}-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=${HOME}/.local || true'
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && wget "${OC_URL_STEM}/${OC_VER}/OpenCoarrays-${OC_VER}.tar.gz"'
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && tar xzvf OpenCoarrays-${OC_VER}.tar.gz"'
+  - mkdir OpenCoarrays-${OC_VER}/build || true
+  - cd OpenCoarrays-${OC_VER}/build || true
+  - cmake -DCMAKE_INSTALL_PREFIX=${HOME}/.local ..
+  - make -j 4
+  - make install
+  - which caf && export FC=caf
 
 script:
   - mkdir build
   - cd build
-  - export PATH="${HOME}/.local/bin:${PATH}"
-  - export PATH="${HOME}/.local/:${PATH}"
   - cmake ..
   - cmake --build . --config Release
   - ctest --output-on-failure
