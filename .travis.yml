@@ -5,9 +5,10 @@ os:
   - linux
 
 ENV:
-  - CTEST_OUTPUT_ON_FAILURE=ON
-  - CMAKE_VER=3.12.4
-  - CMAKE_URL_STEM="https://cmake.org/files"
+  GLOBAL:
+    - CTEST_OUTPUT_ON_FAILURE=ON
+    - CMAKE_VER="3.12.4"
+    - CMAKE_URL_STEM="https://cmake.org/files"
 
 addons:
   homebrew:
