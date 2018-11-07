@@ -186,9 +186,23 @@ set_tests_properties(collective-ld-check
 
 # Add another test, to ensure that our assertion utility actually works
 # i.e., will fail
-add_test(NAME test-assertion-works
-  COMMAND cafrun -np 1 assertion-works)
-set_tests_properties(test-assertion-works
+add_test(NAME test-assertion-works1
+  COMMAND cafrun -np 1 ./assertion-works
+  WORKING_DIRECTORY ${CMAKE_INSTALL_BINDIR})
+set_tests_properties(test-assertion-works1
   PROPERTIES
   FAIL_REGULAR_EXPRESSION "This should fail!"
   WILL_FAIL TRUE)
+add_test(NAME test-assertion-works2
+  COMMAND cafrun -np 1 ./assertion-works
+  WORKING_DIRECTORY ${CMAKE_INSTALL_BINDIR})
+set_tests_properties(test-assertion-works2
+  PROPERTIES
+  PASS_REGULAR_EXPRESSION "Test passed."
+  WILL_FAIL TRUE)
+add_test(NAME test-assertion-works3
+  COMMAND cafrun -np 1 ./assertion-works
+  WORKING_DIRECTORY ${CMAKE_INSTALL_BINDIR})
+set_tests_properties(test-assertion-works3
+  PROPERTIES
+  PASS_REGULAR_EXPRESSION "This should fail!")
