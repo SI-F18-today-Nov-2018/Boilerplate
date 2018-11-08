@@ -24,8 +24,9 @@ addons:
       - gcc-8
       - gfortran-8
       - openmpi
-      - openmpi-dev
+      - libopenmpi-dev
       - openmpi-bin
+      - openmpi-common
 
 install:
   - export FC=gfortran-8
