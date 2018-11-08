@@ -23,7 +23,6 @@ addons:
     packages:
       - gcc-8
       - gfortran-8
-      - openmpi
       - libopenmpi-dev
       - openmpi-bin
       - openmpi-common
