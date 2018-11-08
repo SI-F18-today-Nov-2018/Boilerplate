@@ -5,12 +5,11 @@ os:
   - linux
 
 ENV:
-  GLOBAL:
     - OC_URL_STEM="https://github.com/sourceryinstitute/OpenCoarrays/releases/download"
-    - OC_VER="2.3.1"
-    - CTEST_OUTPUT_ON_FAILURE=ON
-    - CMAKE_VER="3.12.4"
-    - CMAKE_URL_STEM="https://cmake.org/files"
+      OC_VER="2.3.1"
+      CTEST_OUTPUT_ON_FAILURE=ON
+      CMAKE_VER="3.12.4"
+      CMAKE_URL_STEM="https://cmake.org/files"
 
 addons:
   homebrew:
