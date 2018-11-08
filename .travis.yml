@@ -11,7 +11,7 @@ env:
     - CTEST_OUTPUT_ON_FAILURE=ON
     - CMAKE_VER="3.12.4"
     - CMAKE_URL_STEM="https://cmake.org/files"
-    - PATH="${HOME}/.local/bin"
+    - PATH="${HOME}/.local/bin:${PATH}"
 
 addons:
   homebrew:
@@ -23,9 +23,6 @@ addons:
     packages:
       - gcc-8
       - gfortran-8
-
-before_install:
-  - '[[ "${TRAVIS_OS_NAME}" = "osx" ]] && brew cask rm oclint || true'
 
 install:
   - export FC=gfortran
