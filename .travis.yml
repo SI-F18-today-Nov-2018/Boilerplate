@@ -23,6 +23,9 @@ addons:
     packages:
       - gcc-8
       - gfortran-8
+      - openmpi
+      - openmpi-dev
+      - openmpi-bin
 
 install:
   - export FC=gfortran-8
@@ -36,11 +39,11 @@ install:
   - 'bash cmake-${CMAKE_VER}-Linux-x86_64.sh --skip-license --exclude-subdir --prefix=${HOME}/.local || true'
   - '[ "${TRAVIS_OS_NAME}" = "linux" ] && wget "${OC_URL_STEM}/${OC_VER}/OpenCoarrays-${OC_VER}.tar.gz" || true'
   - '[ "${TRAVIS_OS_NAME}" = "linux" ] && tar xzvf "OpenCoarrays-${OC_VER}.tar.gz" || true'
-  - mkdir "OpenCoarrays-${OC_VER}/build" || true
+  - mkdir -p "OpenCoarrays-${OC_VER}/build" || true
   - cd OpenCoarrays-${OC_VER}/build || true
-  - cmake -DCMAKE_INSTALL_PREFIX=${HOME}/.local ..
-  - make -j 4
-  - make install
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && cmake -DCMAKE_INSTALL_PREFIX=${HOME}/.local .. || true'
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && make -j 3 || true'
+  - '[ "${TRAVIS_OS_NAME}" = "linux" ] && make install || true'
   - which caf && export FC=caf
   - cd "${TRAVIS_BUILD_DIR}"
 
